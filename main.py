@@ -21,4 +21,4 @@ async def on_message(message):
             await message.channel.send(liste[i+1])
     
 
-client.run('MTA0MTMyMjMwNTU3MTI3MDY4Nw.G7-0fN.IQ0tJUMPMExMmZsxVOKDQvVX6BplVYB_Ii6z48')
+client.run('TOKEN')
