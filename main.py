@@ -1,11 +1,12 @@
 import discord
+import random
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-liste = ["quoi", "feur", "oui", "stiti", "non", "bril"]
+dictionnaire = {"quoi": ["feur", "chi", "driceps"], "oui": ["stiti", "ghours"]}
 
 @client.event
 async def on_ready():
@@ -15,10 +16,13 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    for i in range(len(liste)):
 
-        if message.content.lower().startswith(liste[i]) and i%2 == 0:
-            await message.channel.send(liste[i+1])
+
+    ouais = message.content.lower()
+
+
+    if message.content.lower().startswith(ouais):
+        await message.channel.send((dictionnaire[ouais])[random.randint(0, len(dictionnaire[ouais])-1)])
     
 
 client.run('TOKEN')
