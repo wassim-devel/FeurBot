@@ -18,11 +18,7 @@ async def on_message(message):
         return
 
 
-    ouais = message.content.lower()
-
-
-    if message.content.lower().startswith(ouais):
-        await message.channel.send((dictionnaire[ouais])[random.randint(0, len(dictionnaire[ouais])-1)])
+    await message.channel.send((dictionnaire[message.content.lower()])[random.randint(0, len(dictionnaire[message.content.lower()])-1)])
     
 
 client.run('TOKEN')
