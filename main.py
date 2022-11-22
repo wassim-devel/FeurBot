@@ -8,6 +8,14 @@ client = discord.Client(intents=intents)
 
 dictionnaire = {"quoi": ["feur", "chi", "driceps"], "oui": ["stiti", "ghours"]}
 
+def retirer_points(y):
+    caracteres = "!? ."
+    y = y.lower()
+    for x in range(len(caracteres)):
+        y = y.replace(caracteres[x],"")
+    return y
+
+
 @client.event
 async def on_ready():
     print(f'Oeoe je me suis bien log en tant que {client.user}')
@@ -18,7 +26,11 @@ async def on_message(message):
         return
 
 
-    await message.channel.send((dictionnaire[message.content.lower()])[random.randint(0, len(dictionnaire[message.content.lower()])-1)])
+    for i in dictionnaire.keys():
+        if i == retirer_points(message.content)[-len(i):]:
+            
+            await message.channel.send(dictionnaire[retirer_points(message.content)[-len(i):]][random.randint(0,len(dictionnaire[retirer_points(message.content)[-len(i):]])-1)])
+    
     
 
 client.run('TOKEN')
