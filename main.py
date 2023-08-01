@@ -1,36 +1,36 @@
 import discord
-import random
+from random import randint
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-dictionnaire = {"quoi": ["feur", "chi", "driceps"], "oui": ["stiti", "ghours"]}
+#Liste des différentes possibilités de message ainsi que leurs réponses
+possibilites = {"quoi": ["feur", "chi", "driceps"], "oui": ["stiti", "ghours"], "mere": ["méditérannée", "rie"], "mère": ["méditérannée", "rie"]}
 
-def retirer_points(y):
+def retirer_points(message):
     caracteres = "!? ."
-    y = y.lower()
+    message = message.lower()
     for x in range(len(caracteres)):
-        y = y.replace(caracteres[x],"")
-    return y
+        message = message.replace(caracteres[x],"")
+    return message
 
 
 @client.event
 async def on_ready():
-    print(f'Oeoe je me suis bien log en tant que {client.user}')
+    print(f'Je me suis bien connecté en tant que {client.user}')
 
 @client.event
 async def on_message(message):
+    #On vérifie que ce n'est pas nous même (le bot) qui envoie le message
     if message.author == client.user:
         return
 
+    # Si le contenu du message dont on a enlevé la ponctuation et les espaces termine par un des mots listés dans le dictionnaire possibilites, alors répondre au hasard une des réponses présente dans la liste correspondante
+    for i in possibilites:
+        if retirer_points(message.content).endswith(i): 
+            await message.channel.send(possibilites[i][randint(0, len(possibilites[i]) - 1)])
 
-    for i in dictionnaire.keys():
-        if i == retirer_points(message.content)[-len(i):]:
-            
-            await message.channel.send(dictionnaire[retirer_points(message.content)[-len(i):]][random.randint(0,len(dictionnaire[retirer_points(message.content)[-len(i):]])-1)])
-    
-    
 
 client.run('TOKEN')
